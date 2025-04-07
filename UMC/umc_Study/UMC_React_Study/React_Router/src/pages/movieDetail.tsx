@@ -8,8 +8,7 @@ import { Movie } from "../types/movie";
 import { Cast, Crew, CreditResponse } from "../types/credits";
 // import { CreditResponse, Cast, Crew } from "../types/credit";
 
-const Token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Njg0ZDI3MDA1NjIwMGRkNzEwZDg4OGVhNWM2YjU5NSIsIm5iZiI6MTc0MzgzNjIzOS42ODQsInN1YiI6IjY3ZjBkNDRmZWRkZWMyOGIwM2FjZmM1OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DDFyqMaEvctMD6io8MGyKCbV711w6EJgHLtDEgq_AQQ";
+const Token = "";
 
 const MovieDetailPage = (): JSX.Element => {
   // 상세표시

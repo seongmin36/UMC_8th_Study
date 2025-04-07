@@ -32,7 +32,7 @@ const MoviesPage = () => {
           `https://api.themoviedb.org/3/movie/${category}?language=ko-KR&page=${page}`,
           {
             headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1Njg0ZDI3MDA1NjIwMGRkNzEwZDg4OGVhNWM2YjU5NSIsIm5iZiI6MTc0MzgzNjIzOS42ODQsInN1YiI6IjY3ZjBkNDRmZWRkZWMyOGIwM2FjZmM1OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DDFyqMaEvctMD6io8MGyKCbV711w6EJgHLtDEgq_AQQ`,
+              Authorization: `Bearer 토큰`,
             },
           }
         );
