@@ -3,7 +3,7 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFound from "./pages/not-found.tsx";
 import Movies from "./pages/movies.tsx";
-
+import MovieDetailPage from "./pages/movieDetail.tsx";
 import RootLayout from "./layout/root-layout.tsx";
 import HomePage from "./pages/home.tsx";
 // import SearchPage from "./cleanUpFunction/searchPage.tsx";
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "movies/:category",
         element: <Movies />,
+      },
+      {
+        path: "movies/:category/:movieId",
+        element: <MovieDetailPage />,
       },
     ],
   },

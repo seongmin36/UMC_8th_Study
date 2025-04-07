@@ -1,10 +1,6 @@
 import { JSX } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-type NavItem = {
-  path: string;
-  label: string;
-};
+import { NavItem } from "../types/navItem";
 
 const navList: NavItem[] = [
   { path: "/", label: "홈" },
@@ -18,7 +14,7 @@ const Navbar = (): JSX.Element => {
   const location = useLocation();
 
   return (
-    <nav className="p-4 space-y-5">
+    <nav className="pt-4 px-4 space-y-5">
       {navList.map((item) => (
         <Link
           key={item.path}
@@ -30,6 +26,7 @@ const Navbar = (): JSX.Element => {
           {item.label}
         </Link>
       ))}
+      <hr className="mt-2 w-screen" />
     </nav>
   );
 };

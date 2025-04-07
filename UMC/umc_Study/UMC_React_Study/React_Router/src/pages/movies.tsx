@@ -39,16 +39,19 @@ const MoviesPage = () => {
 
         setPopular(data.results);
         console.log(data.results);
-        setIsError(false);
       } catch {
         setIsError(true);
       } finally {
         setIsPending(false);
       }
     };
-
     fetchMovies();
   }, [page, category]);
+
+  // category 변경시 page(1)로 초기화
+  useEffect((): void => {
+    setPage(1);
+  }, [category]);
 
   if (isError) {
     return <ErrorPage />;
@@ -56,7 +59,7 @@ const MoviesPage = () => {
 
   return (
     <>
-      <div className="flex justify-center mt-2 ">
+      <div className="flex justify-center mt-6 ">
         <button
           onClick={(): void => setPage((prev): number => prev - 1)}
           disabled={page === 1}
@@ -81,7 +84,7 @@ const MoviesPage = () => {
           <ul className="grid grid-cols-5 p-5 gap-8">
             {popular?.map((movie) => (
               <li key={movie.id}>
-                <MovieBar movie={movie} />
+                <MovieBar movie={movie} category={category!} />
               </li>
             ))}
           </ul>
