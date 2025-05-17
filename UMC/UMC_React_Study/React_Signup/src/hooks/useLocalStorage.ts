@@ -1,10 +1,18 @@
 export const useLocalStorage = (key: string) => {
-  const getItem = () => {
+  // accessToken이 null인 경우와 string인 경우 + setItem을 string형식으로 안받을때(JSON.stringify) parsing 처리까지
+  const getItem = (): string | null => {
     try {
       const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : null;
+      if (item === null) return null;
+
+      try {
+        return JSON.parse(item);
+      } catch {
+        return item;
+      }
     } catch (e) {
-      console.log(e);
+      console.error("Error reading from localStorage", e);
+      return null;
     }
   };
 

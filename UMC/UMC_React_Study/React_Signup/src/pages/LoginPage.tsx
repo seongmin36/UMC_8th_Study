@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+import { useEffect, type JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import useForm from "../hooks/useLoginForm";
 import { validateSignin } from "../utils/validate";
@@ -6,8 +6,14 @@ import { type LoginFormValues } from "../types/loginFormValues";
 import { useAuth } from "../context/AuthContext";
 
 const LoginPage = (): JSX.Element => {
-  const { login } = useAuth();
+  const { login, accessToken } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/", { replace: true });
+    }
+  }, [accessToken, navigate]);
 
   const { values, errors, touched, getInputProps } = useForm<LoginFormValues>({
     initialValue: { email: "", password: "" },
