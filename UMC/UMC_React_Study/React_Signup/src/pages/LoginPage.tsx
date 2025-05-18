@@ -11,7 +11,7 @@ const LoginPage = (): JSX.Element => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/", { replace: true });
+      navigate("/myPage", { replace: true });
     }
   }, [accessToken, navigate]);
 
@@ -22,7 +22,6 @@ const LoginPage = (): JSX.Element => {
 
   const handleSubmit = async () => {
     await login(values);
-    navigate("/myPage");
   };
 
   // 버튼 활성화 로직
