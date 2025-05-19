@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   type PropsWithChildren,
 } from "react";
@@ -8,6 +9,7 @@ import { type RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { postLogout, postSignin } from "../apis/auth";
+import { LoadingSpinner } from "../ErrorCase/LoadingSpinner";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -25,6 +27,10 @@ export const AuthContext: React.Context<AuthContextType> =
   });
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [isInitailized, setIsInitialized] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
+
   // const navigate = useNavigate();
   const {
     getItem: getAccessTokenFromStorage,
@@ -38,16 +44,29 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   } = useLocalStorage(LOCAL_STORAGE_KEY.refreshToken);
 
   // 지연 초기화 방식
-  const [accessToken, setAccessToken] = useState<string | null>(() => {
-    console.log("AccessToken 초기값을 localStorage에서 읽어옵니다."); // 처음 렌더링 시에만 실행됨
-    return getAccessTokenFromStorage();
-  });
-  const [refreshToken, setRefreshToken] = useState<string | null>(() => {
-    console.log(
-      "RefreshToken 초기값을 localStorage에서 읽어옵니다 (지연 초기화)."
-    );
-    return getRefreshTokenFromStorage();
-  });
+  // const [accessToken, setAccessToken] = useState<string | null>(() => {
+  //   console.log("AccessToken 초기값을 localStorage에서 읽어옵니다."); // 처음 렌더링 시에만 실행됨
+  //   return getAccessTokenFromStorage();
+  // });
+  // const [refreshToken, setRefreshToken] = useState<string | null>(() => {
+  //   console.log(
+  //     "RefreshToken 초기값을 localStorage에서 읽어옵니다 (지연 초기화)."
+  //   );
+  //   return getRefreshTokenFromStorage();
+  // });
+
+  // 비동기 제어 방식 (loading 화면을 위한 구조)
+  useEffect(() => {
+    const token = getAccessTokenFromStorage();
+    const refresh = getRefreshTokenFromStorage();
+    setAccessToken(token);
+    setRefreshToken(refresh);
+    setIsInitialized(true); // 초기화 완료
+  }, [getAccessTokenFromStorage, getRefreshTokenFromStorage]);
+
+  if (!isInitailized) {
+    return <LoadingSpinner />; // 로딩 스피너 보여주기
+  }
 
   const login = async (signindata: RequestSigninDto) => {
     try {
