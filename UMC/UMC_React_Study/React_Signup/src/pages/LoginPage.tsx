@@ -22,6 +22,7 @@ const LoginPage = (): JSX.Element => {
 
   const handleSubmit = async () => {
     await login(values);
+    navigate("/myPage");
   };
 
   // 버튼 활성화 로직
@@ -30,7 +31,7 @@ const LoginPage = (): JSX.Element => {
     Object.values(values).some((value) => value.trim() === "");
 
   return (
-    <div className="flex justify-center flex-col items-center m-10 h-full">
+    <div className="flex justify-center flex-col items-center h-dvh">
       <div className="relative flex items-center justify-center w-80">
         <button
           className="absolute left-2 text-3xl mb-2"
@@ -68,6 +69,16 @@ const LoginPage = (): JSX.Element => {
           onClick={handleSubmit}
         >
           로그인
+        </button>
+        <button
+          className="border-2 rounded-md bg-blue-400 text-white p-1.5 hover:bg-blue-500 disabled:bg-gray-400"
+          type="button"
+          onClick={handleGoogleLogin}
+        >
+          <div className="flex justify-center items-center gap-3">
+            <img className="" src={"/src/assets/google.png"} />
+            구글 로그인
+          </div>
         </button>
       </div>
     </div>

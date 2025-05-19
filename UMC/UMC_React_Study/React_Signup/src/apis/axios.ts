@@ -11,6 +11,8 @@ let refreshPromise: Promise<string | null> | null = null;
 
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_SERVER_API_URL,
+  // 쿠키로 로그인할 때 쿠키가 모든 요청이 심어진다.
+  // withCredentials:true,
 });
 
 // 요청 인터셉터 : 요청 전에 매번 최신 토큰을 꺼내서 (Authorization)헤더에 설정

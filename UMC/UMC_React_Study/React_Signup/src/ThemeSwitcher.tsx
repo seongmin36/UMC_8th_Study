@@ -13,6 +13,7 @@ import RootLayout from "./layouts/root-layout";
 import MyPage from "./pages/MyPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedLayout from "./layouts/ProtectedLayout";
+import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
 
 // Public Routes : 인증 필요 X
 const publicRoutes: RouteObject[] = [
@@ -32,6 +33,10 @@ const publicRoutes: RouteObject[] = [
       {
         path: "signup",
         element: <SignUpPage />,
+      },
+      {
+        path: "v1/auth/google/callback",
+        element: <GoogleLoginRedirectPage />,
       },
     ],
   },
