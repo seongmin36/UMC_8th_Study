@@ -14,6 +14,8 @@ import MyPage from "./pages/MyPage";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // Public Routes : 인증 필요 X
 const publicRoutes: RouteObject[] = [
@@ -58,11 +60,23 @@ const protectedRoutes: RouteObject[] = [
 
 const router = createBrowserRouter([...publicRoutes, ...protectedRoutes]);
 
+export const queryClient = new QueryClient({
+  // defaultOptions: {
+  //   queries: {
+  //     retry: 3,
+  //   },
+  // },
+});
+
 function ThemeSwitcher() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+      {/* import.meta.env.PROD 로 선언하면 아예 안보임 */}
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+    </QueryClientProvider>
   );
 }
 

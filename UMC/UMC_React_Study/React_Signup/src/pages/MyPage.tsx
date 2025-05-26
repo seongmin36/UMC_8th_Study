@@ -28,7 +28,7 @@ const MyPage = (): JSX.Element => {
 
   console.log(data?.data?.name);
   return (
-    <div>
+    <div className="min-h-screen">
       <h1>{data?.data?.name}님 환영합니다!</h1>
       <h1>{data?.data?.email}</h1>
       <button

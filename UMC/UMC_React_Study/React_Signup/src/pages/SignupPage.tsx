@@ -1,10 +1,11 @@
-import { type JSX, useEffect, useState } from "react";
+import { type JSX, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { type SubmitHandler } from "react-hook-form";
 import { useSignupForm } from "../hooks/useSignupForm";
 import { type SignupFormValues } from "../types/signupFormValues";
 import { type ResponseSignupDto } from "../types/auth";
 import { postSignup } from "../apis/auth";
+import axios from "axios";
 
 const SignupPage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -12,22 +13,10 @@ const SignupPage = (): JSX.Element => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isDirty, isValid },
+    getValues,
   } = useSignupForm();
 
   const [step, setStep] = useState<1 | 2 | 3>(1);
-
-  useEffect(() => {
-    if (step === 1 && !errors.email && isValid) {
-      setStep(2);
-    } else if (
-      step === 2 &&
-      !errors.confirmPassword &&
-      !errors.password &&
-      isValid
-    ) {
-      setStep(3);
-    }
-  }, [errors, isValid, step]);
 
   const [showPasswords, setShowPasswords] = useState({
     password: true,
@@ -48,10 +37,19 @@ const SignupPage = (): JSX.Element => {
     try {
       const response: ResponseSignupDto = await postSignup(rest);
       console.log("회원가입 성곰", response);
+      alert("회원가입 성공!");
 
       navigate("/myPage");
     } catch (error) {
       console.error("회원가입 실패", error);
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 409) {
+          alert("이미 존재하는 아이디입니다.");
+          navigate("/signup");
+        } else {
+          alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      }
     }
 
     console.log("data 제출됨 : ", rest);
@@ -65,11 +63,27 @@ const SignupPage = (): JSX.Element => {
     }
   };
 
+  const isDisabledStep2 = (): boolean => {
+    const password = getValues("password");
+    const confirmPassword = getValues("confirmPassword");
+    return (
+      !password ||
+      !confirmPassword ||
+      !!errors.password ||
+      !!errors.confirmPassword
+    );
+  };
+
+  const isDisabledStep3 = (): boolean => {
+    const name = getValues("name");
+    return !name || !!errors.name;
+  };
+
   return (
     <div className="flex justify-center flex-col items-center m-10 h-lvh">
       <div className="relative flex items-center justify-center w-80">
         <button
-          className="absolute left-2 text-3xl mb-2"
+          className="absolute left-2 text-3xl mb-2 cursor-pointer"
           onClick={() => navigate(-1)}
         >
           {"‹"}
@@ -100,7 +114,7 @@ const SignupPage = (): JSX.Element => {
                 type="button"
                 onClick={handleNextStep}
                 className="border-2 rounded-md bg-blue-400 text-white p-2.5 hover:bg-blue-500 disabled:bg-gray-400"
-                disabled={!!errors.email || !isDirty}
+                disabled={!!errors.email || !isDirty || isValid}
               >
                 다음
               </button>
@@ -203,17 +217,21 @@ const SignupPage = (): JSX.Element => {
                   </svg>
                 )}
               </button>
-              {errors.confirmPassword && (
-                <small className="text-red-600 text-xs">
-                  {errors.confirmPassword?.message}
-                </small>
-              )}
             </div>
+            {errors.confirmPassword && (
+              <small className="text-red-600 text-xs">
+                {errors.confirmPassword?.message}
+              </small>
+            )}
 
             {step === 2 && (
               <button
                 type="button"
-                // disabled={!isValid}
+                disabled={
+                  !!errors.confirmPassword ||
+                  !!errors.password ||
+                  isDisabledStep2()
+                }
                 onClick={() => {
                   if (!errors.password && !errors.confirmPassword) setStep(3);
                   if (errors.confirmPassword) {
@@ -246,7 +264,7 @@ const SignupPage = (): JSX.Element => {
               </small>
             )}
             <button
-              disabled={isSubmitting || !isDirty}
+              disabled={!!errors.name || isDisabledStep3()}
               type="submit"
               className="border-2 rounded-md bg-blue-400 text-white p-2.5 hover:bg-blue-500 disabled:bg-gray-400"
             >

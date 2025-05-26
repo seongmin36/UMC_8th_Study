@@ -6,6 +6,12 @@ import { type SignupFormValues } from "../types/signupFormValues";
 export const useSignupForm = () => {
   return useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
-    mode: "onTouched",
+    mode: "onChange", // <--- 이 부분을 추가하거나 확인합니다.
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+    },
   });
 };

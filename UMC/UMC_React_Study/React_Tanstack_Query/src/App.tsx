@@ -2,6 +2,7 @@ import * as React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import TodosComponent from "./components/Todos";
+import InfinitePostsComponent from "./components/InfinitePost";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TodosComponent />
+      <InfinitePostsComponent />
       <ReactQueryDevtools initialIsOpen={false} />
       {showDevtools && (
         <React.Suspense fallback={null}>

@@ -39,10 +39,10 @@ const LoginPage = (): JSX.Element => {
     Object.values(values).some((value) => value.trim() === "");
 
   return (
-    <div className="flex justify-center flex-col items-center h-dvh">
+    <div className="flex justify-center flex-col items-center min-h-screen">
       <div className="relative flex items-center justify-center w-80">
         <button
-          className="absolute left-2 text-3xl mb-2"
+          className="absolute left-2 text-3xl mb-2 cursor-pointer"
           onClick={() => navigate(`/`)}
         >
           {"‹"}
@@ -79,12 +79,12 @@ const LoginPage = (): JSX.Element => {
           로그인
         </button>
         <button
-          className="border-2 rounded-md bg-blue-400 text-white p-1.5 hover:bg-blue-500 disabled:bg-gray-400"
+          className="border-2 rounded-md text-white p-1.5 border-gray-400 cursor-pointer"
           type="button"
           onClick={handleGoogleLogin}
           disabled={isLoading}
         >
-          <div className="flex justify-center items-center gap-3">
+          <div className="flex justify-center items-center gap-3 text-black">
             <img src={"/src/assets/google.png"} />
             구글 로그인
           </div>
