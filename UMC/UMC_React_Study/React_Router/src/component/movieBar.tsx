@@ -19,7 +19,7 @@ export const MovieBar = ({ movie, category }: Props): JSX.Element => {
           <h2 className="text-lg font-bold text-center text-white">
             {movie.title}
           </h2>
-          <p className="text-sm text-center text-white line-clamp-2">
+          <p className="text-sm text-center text-white line-clamp-5">
             {movie.overview}
           </p>
         </div>

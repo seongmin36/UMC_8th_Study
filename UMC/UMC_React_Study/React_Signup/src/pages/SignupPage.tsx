@@ -12,7 +12,7 @@ const SignupPage = (): JSX.Element => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    formState: { errors, isDirty, isValid },
     getValues,
   } = useSignupForm();
 
@@ -80,15 +80,15 @@ const SignupPage = (): JSX.Element => {
   };
 
   return (
-    <div className="flex justify-center flex-col items-center m-10 h-lvh">
+    <div className="flex flex-col items-center justify-center m-10 h-lvh">
       <div className="relative flex items-center justify-center w-80">
         <button
-          className="absolute left-2 text-3xl mb-2 cursor-pointer"
+          className="absolute mb-2 text-3xl cursor-pointer left-2"
           onClick={() => navigate(-1)}
         >
           {"‹"}
         </button>
-        <p className="font-bold text-xl">회원가입</p>
+        <p className="text-xl font-bold">회원가입</p>
       </div>
       <form
         className="flex flex-col gap-3 mt-5"
@@ -105,7 +105,7 @@ const SignupPage = (): JSX.Element => {
               placeholder="이메일"
             />
             {errors.email && (
-              <small className="text-red-600 text-xs">
+              <small className="text-xs text-red-600">
                 {errors.email.message}
               </small>
             )}
@@ -134,7 +134,7 @@ const SignupPage = (): JSX.Element => {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2"
                 onClick={() => showPasswordVisibility("password")}
               >
                 {showPasswords.password ? (
@@ -167,7 +167,7 @@ const SignupPage = (): JSX.Element => {
               </button>
             </div>
             {errors.password && (
-              <small className="text-red-600 text-xs">
+              <small className="text-xs text-red-600">
                 {errors.password.message}
               </small>
             )}
@@ -186,7 +186,7 @@ const SignupPage = (): JSX.Element => {
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2"
                 onClick={() => showPasswordVisibility("confirmPassword")}
               >
                 {showPasswords.confirmPassword ? (
@@ -219,7 +219,7 @@ const SignupPage = (): JSX.Element => {
               </button>
             </div>
             {errors.confirmPassword && (
-              <small className="text-red-600 text-xs">
+              <small className="text-xs text-red-600">
                 {errors.confirmPassword?.message}
               </small>
             )}
@@ -259,7 +259,7 @@ const SignupPage = (): JSX.Element => {
               placeholder="이름"
             />
             {errors.name && (
-              <small className="text-red-600 text-xs">
+              <small className="text-xs text-red-600">
                 {errors.name?.message}
               </small>
             )}

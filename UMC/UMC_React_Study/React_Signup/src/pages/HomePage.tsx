@@ -10,6 +10,7 @@ import LpCardSkeletonList from "../component/LpCard/LpCardSkeletonList";
 const HomePage = () => {
   // 검색어가 useState("") ""에 해당하는 요소에 검색어로 바뀜
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
 
   const {
     data: lps,
@@ -18,7 +19,7 @@ const HomePage = () => {
     isPending,
     fetchNextPage,
     isError,
-  } = useGetInfiniteLpList(10, search, PAGINATION_ORDER.desc);
+  } = useGetInfiniteLpList(10, search, sort);
 
   // ref, inView
   // ref -> 특정한 HTML 요소를 감시할 수 있다.
@@ -26,29 +27,56 @@ const HomePage = () => {
   const { ref, inView } = useInView({ threshold: 0 });
 
   // 무한스크롤 동작 effect
+  useEffect(() => {
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+
   // useEffect(() => {
-  //   if (inView) {
-  //     !isFetching && hasNextPage && fetchNextPage();
-  //   }
-  // }, [inView, isFetching, hasNextPage, fetchNextPage()]);
+  //   refetch();
+  // }, [sort, search, refetch]);
 
   if (isError) {
     return <div className="min-h-screen">오류가 발생했습니다</div>;
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 min-h-screen">
-      <div>안녕하세요</div>
-      <input
-        className="rounded-md border border-black "
+    <div className="container min-h-screen px-4 py-6 mx-auto">
+      {/* <input
+        className="border border-black rounded-md "
         value={search}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setSearch(e.target.value)
         }
-      />
+      /> */}
+      <div className="mb-4 text-right">
+        <button
+          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-l-sm ${
+            sort === PAGINATION_ORDER.asc
+              ? "bg-blue-500 text-white"
+              : "text-black"
+          }`}
+          onClick={() => setSort(PAGINATION_ORDER.asc)}
+        >
+          오래된순
+        </button>
+
+        <button
+          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-r-sm ${
+            sort === PAGINATION_ORDER.desc
+              ? "bg-blue-500 text-white"
+              : "text-black"
+          }`}
+          onClick={() => setSort(PAGINATION_ORDER.desc)}
+        >
+          최신순
+        </button>
+      </div>
+
       <div
         className={
-          "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          "grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-2"
         }
       >
         {lps?.pages
@@ -57,7 +85,7 @@ const HomePage = () => {
           ?.map((lp: Lp) => (
             <LpCard key={lp.id} lp={lp} />
           ))}
-        {isPending && <LpCardSkeletonList count={20} />}
+        {(isFetching || isPending) && <LpCardSkeletonList count={20} />}
         <div
           ref={ref}
           className={`mt-8 flex justify-center bg-gray-400 h-2`}
