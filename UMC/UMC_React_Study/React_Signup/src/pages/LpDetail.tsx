@@ -13,6 +13,7 @@ import {
   faPencil,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import LpComment from "../component/LpCard/LpComment";
 
 const LpDetail = () => {
   const { LPid } = useParams<{ LPid: string }>();
@@ -36,8 +37,8 @@ const LpDetail = () => {
   }
 
   return (
-    <div className="px-40 mx-auto max-w-7xl">
-      <div className="justify-center px-20 py-6 ml-2 bg-blue-100 border border-blue-100 rounded-xl">
+    <div className="flex flex-col px-40 mx-auto max-w-7xl">
+      <div className="justify-center px-20 py-6 mb-10 bg-blue-100 border border-blue-100 rounded-xl">
         <div className="">
           <div className="flex justify-between pb-4">
             <div className="flex">
@@ -64,12 +65,12 @@ const LpDetail = () => {
             </div>
           </div>
           <div className="flex justify-center mb-5">
-            <div className="flex items-center justify-center rounded-md shadow-2xl bg-blue-50 aspect-square w-md">
-              <div className="absolute w-[6%] h-[8.75%] rounded-full bg-white border z-10"></div>
+            <div className="relative flex items-center justify-center rounded-md shadow-2xl bg-blue-50 aspect-square w-md">
+              <div className="absolute z-4 w-[20%] h-[20%] bg-white border rounded-full"></div>
               <img
                 src={lp?.thumbnail}
                 alt={lp?.title}
-                className="border-4 border-black rounded-full animate-[spin_5s_linear_infinite] object-cover w-[90%] h-[90%]"
+                className="border-4 border-black rounded-full animate--[spin_5s_linear_infinite] object-cover w-[90%] h-[90%]"
               />
             </div>
           </div>
@@ -82,13 +83,14 @@ const LpDetail = () => {
             ))}
           </div>
           <div className="flex justify-center mt-4">
-            <button className="mr-2">
+            <button className="mr-2 cursor-pointer" type="button">
               <FontAwesomeIcon icon={faHeart} />
             </button>
             <div>1</div>
           </div>
         </div>
       </div>
+      <LpComment />
     </div>
   );
 };
