@@ -18,6 +18,7 @@ const HomePage = () => {
     hasNextPage,
     isPending,
     fetchNextPage,
+    isFetchingNextPage,
     isError,
   } = useGetInfiniteLpList(10, search, sort);
 
@@ -32,10 +33,6 @@ const HomePage = () => {
       !isFetching && hasNextPage && fetchNextPage();
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [sort, search, refetch]);
 
   if (isError) {
     return <div className="min-h-screen">오류가 발생했습니다</div>;
@@ -52,7 +49,7 @@ const HomePage = () => {
       /> */}
       <div className="mb-4 text-right">
         <button
-          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-l-sm ${
+          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-l-sm cursor-pointer ${
             sort === PAGINATION_ORDER.asc
               ? "bg-blue-500 text-white"
               : "text-black"
@@ -63,7 +60,7 @@ const HomePage = () => {
         </button>
 
         <button
-          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-r-sm ${
+          className={`py-2 px-6 text-base font-medium transition-colors duration-200 border border-blue-500 rounded-r-sm cursor-pointer ${
             sort === PAGINATION_ORDER.desc
               ? "bg-blue-500 text-white"
               : "text-black"
@@ -85,7 +82,7 @@ const HomePage = () => {
           ?.map((lp: Lp) => (
             <LpCard key={lp.id} lp={lp} />
           ))}
-        {(isFetching || isPending) && <LpCardSkeletonList count={20} />}
+        {(isFetchingNextPage || isPending) && <LpCardSkeletonList count={20} />}
         <div
           ref={ref}
           className={`mt-8 flex justify-center bg-gray-400 h-2`}

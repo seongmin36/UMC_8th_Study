@@ -9,7 +9,7 @@ import { type RequestSigninDto } from "../types/auth";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { LOCAL_STORAGE_KEY } from "../constants/key";
 import { postLogout, postSignin } from "../apis/auth";
-import { LoadingSpinner } from "../ErrorCase/LoadingSpinner";
+import LpCardSkeleton from "../component/LpCard/LpCardSkeleton";
 
 interface AuthContextType {
   accessToken: string | null;
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, [getAccessTokenFromStorage, getRefreshTokenFromStorage]);
 
   if (!isInitailized) {
-    return <LoadingSpinner />; // 로딩 스피너 보여주기
+    return <LpCardSkeleton />;
   }
 
   const login = async (signindata: RequestSigninDto) => {

@@ -15,17 +15,12 @@ export function getTimeAgo(isoDateString: Date): string {
   if (diffMinutes < 1) {
     return "Just now";
   } else if (diffMinutes < 60) {
-    return `${diffMinutes}mins ago`;
+    return `${diffMinutes} mins ago`;
   } else if (diffMinutes < 24 * 60) {
     const diffHours = Math.floor(diffMinutes / 60);
-    return `${diffHours}hours ago`;
-  } else if (diffMinutes < 7 * 24 * 60) {
-    const diffDays = Math.floor(diffMinutes / (24 * 60));
-    return `${diffDays}days ago`;
+    return `${diffHours} hours ago`;
   } else {
-    const year = targetDate.getFullYear();
-    const month = (targetDate.getMonth() + 1).toString().padStart(2, "0");
-    const day = targetDate.getDate().toString().padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    const diffDays = Math.floor(diffMinutes / (24 * 60));
+    return `${diffDays} days ago`;
   }
 }

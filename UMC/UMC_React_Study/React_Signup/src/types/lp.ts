@@ -20,7 +20,7 @@ export type Lp = {
   authorId: number;
   createdAt: Date;
   updatedAt: Date;
-  tag: Tag[];
+  tags: Tag[];
   likes: Likes[];
 };
 

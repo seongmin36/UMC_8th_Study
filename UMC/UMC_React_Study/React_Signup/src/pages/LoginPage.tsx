@@ -4,7 +4,6 @@ import useForm from "../hooks/useLoginForm";
 import { validateSignin } from "../utils/validate";
 import { type LoginFormValues } from "../types/loginFormValues";
 import { useAuth } from "../context/AuthContext";
-// import { LoadingSpinner } from "../ErrorCase/LoadingSpinner";
 
 const LoginPage = (): JSX.Element => {
   const { login, accessToken } = useAuth();
@@ -39,15 +38,15 @@ const LoginPage = (): JSX.Element => {
     Object.values(values).some((value) => value.trim() === "");
 
   return (
-    <div className="flex justify-center flex-col items-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="relative flex items-center justify-center w-80">
         <button
-          className="absolute left-2 text-3xl mb-2 cursor-pointer"
+          className="absolute mb-2 text-3xl cursor-pointer left-2"
           onClick={() => navigate(`/`)}
         >
           {"‹"}
         </button>
-        <p className="font-bold text-xl">로그인</p>
+        <p className="text-xl font-bold">로그인</p>
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <input
@@ -58,7 +57,7 @@ const LoginPage = (): JSX.Element => {
           {...getInputProps("email")}
         />
         {errors.email && (
-          <small className="text-red-600 text-xs">{errors.email}</small>
+          <small className="text-xs text-red-600">{errors.email}</small>
         )}
         <input
           className={`border-2 rounded p-2.5 w-85
@@ -68,7 +67,7 @@ const LoginPage = (): JSX.Element => {
           {...getInputProps("password")}
         />
         {touched.password && errors.password && (
-          <small className="text-red-600 text-xs">{errors.password}</small>
+          <small className="text-xs text-red-600">{errors.password}</small>
         )}
         <button
           className="border-2 rounded-md bg-blue-400 text-white p-2.5 hover:bg-blue-500 disabled:bg-gray-400"
@@ -84,7 +83,7 @@ const LoginPage = (): JSX.Element => {
           onClick={handleGoogleLogin}
           disabled={isLoading}
         >
-          <div className="flex justify-center items-center gap-3 text-black">
+          <div className="flex items-center justify-center gap-3 text-black">
             <img src={"/src/assets/google.png"} />
             구글 로그인
           </div>
