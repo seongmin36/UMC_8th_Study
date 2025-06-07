@@ -1,36 +1,25 @@
-import { useEffect, useState, type JSX } from "react";
-import type { ResponseMyInfoDto } from "../types/auth";
-import { getMyInfo } from "../apis/auth";
+import { type JSX } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import useGetMyInfo from "../hooks/queries/useGetMyInfo";
 
 const MyPage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { logout } = useAuth();
-  const [data, setData] = useState<ResponseMyInfoDto | null>(null);
 
-  useEffect(() => {
-    const getData = async () => {
-      const response: ResponseMyInfoDto = await getMyInfo();
-      console.log(response);
-
-      setData(response);
-    };
-
-    getData();
-  }, []);
+  const { data: me } = useGetMyInfo();
 
   const handleLogout = async () => {
     await logout();
     navigate("/");
   };
 
-  console.log(data?.data?.name);
+  console.log(me?.data?.name);
   return (
     <div className="min-h-screen">
-      <h1>{data?.data?.name}님 환영합니다!</h1>
-      <h1>{data?.data?.email}</h1>
+      <h1>{me?.data?.name}님 환영합니다!</h1>
+      <h1>{me?.data?.email}</h1>
       <button
         onClick={handleLogout}
         className="cursor-pointer hover:bg-blue-400 border-2 border-none bg-blue-300 rounded-sm p-0.5"
